@@ -1,35 +1,40 @@
 'use strict';
 
 angular.module('myApp', [])
-  .controller('MovieController', function($scope, $http){
-    var pendingTask;
+	.controller('MovieController', function($scope, $http){
+		var pendingTask;
 
-    if($scope.search === undefined){
-      $scope.search = "Sherlock Holmes";
-      fetch();
-    }
+		if($scope.search === undefined){
+			$scope.search = "Sherlock Holmes";
+			fetch();
+		}
 
-    $scope.change = function(){
-      if(pendingTask){
-        clearTimeout(pendingTask);
-      }
-      pendingTask = setTimeout(fetch, 800);
-    };
+		$scope.change = function(){
+			if(pendingTask){
+				clearTimeout(pendingTask);
+			}
+			pendingTask = setTimeout(fetch, 0);
+		};
 
-    function fetch(){
-      $http.get("http://www.omdbapi.com/?t=" + $scope.search + "&tomatoes=true&plot=full")
-       .success(function(response){ $scope.details = response; });
+		function fetch(){
+			$http.get("http://www.omdbapi.com/?t=" + $scope.search + "&tomatoes=true&plot=full")
+			 .success(function(response){ 
+					console.log(response)
+					$scope.details = response; 
+				});
 
-      $http.get("http://www.omdbapi.com/?s=" + $scope.search)
-       .success(function(response){  $scope.related = response; });
-    }
+			$http.get("http://www.omdbapi.com/?s=" + $scope.search)
+			 .success(function(response){  
+					$scope.related = response; 
+				});
+		}
 
-    $scope.update = function(movie){
-      $scope.search = movie.Title;
-      $scope.change();
-    };
+		$scope.update = function(movie){
+			$scope.search = movie.Title;
+			$scope.change();
+		};
 
-    $scope.select = function(){
-      this.setSelectionRange(0, this.value.length);
-    }
-  });
+		$scope.select = function(){
+			this.setSelectionRange(0, this.value.length);
+		}
+	});
