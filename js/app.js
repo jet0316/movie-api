@@ -13,18 +13,19 @@ angular.module('myApp', [])
 			if(pendingTask){
 				clearTimeout(pendingTask);
 			}
-			pendingTask = setTimeout(fetch, 0);
+			pendingTask = setTimeout(fetch, 500);
 		};
 
 		function fetch(){
 			$http.get("http://www.omdbapi.com/?t=" + $scope.search + "&tomatoes=true&plot=full")
 			 .success(function(response){ 
-					console.log(response)
+					// console.log(response)
 					$scope.details = response; 
 				});
 
 			$http.get("http://www.omdbapi.com/?s=" + $scope.search)
 			 .success(function(response){  
+			 	console.log(response)
 					$scope.related = response; 
 				});
 		}
